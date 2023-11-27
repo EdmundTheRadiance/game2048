@@ -23,7 +23,7 @@
     "inlineSourceMap": true,
     "importHelpers": false,
     "resolveJsonModule": true,
-    "typeRoots": ["./typings", "./node_modules/@types"]
+    "typeRoots": ["./typings", "./node_modules/@types", "./node_modules/types"]
   },
   "include": ["src/**/*"],
   "exclude": [

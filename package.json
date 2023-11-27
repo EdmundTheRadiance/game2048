@@ -1,0 +1,22 @@
+{
+  "name": "game2048",
+  "version": "1.0.0",
+  "description": "A demo to show how to create a mini game from 0.",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdmundTheRadiance/game2048.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EdmundTheRadiance/game2048/issues"
+  },
+  "homepage": "https://github.com/EdmundTheRadiance/game2048#readme",
+  "dependencies": {
+    "minigame-api-typings": "^3.8.3"
+  }
+}

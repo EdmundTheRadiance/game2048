@@ -1,5 +1,6 @@
 import './libs/weapp-adapter'
 import draw from "./dist/modules/draw";
+import gameState from "./dist/modules/gameState";
 
 window.requestAnimationFrame(loop)
 
@@ -11,7 +12,8 @@ function loop() {
   const ctx = canvas.getContext('2d')
 
   draw.drawCheckerboard(ctx);
+  gameState.start();
   draw.drawPieces(ctx);
 
-  window.requestAnimationFrame(loop)
+  // window.requestAnimationFrame(loop)
 }
