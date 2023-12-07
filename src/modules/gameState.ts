@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/minigame-api-typings/index.d.ts" />
+import { EventName } from "../typings/index";
 import event from "./event";
 import pieces from "./pieces";
 
@@ -17,7 +18,7 @@ enterStateFuncMap[state.START] = () => {
     mod.start();
 }
 exitStateFuncMap[state.START] = () => {
-    event.trigger('GameState.exitStart');
+    event.trigger(EventName['GAMESTATE.EXIT_START']);
 }
 
 enterStateFuncMap[state.PAUSING] = () => {
@@ -30,10 +31,10 @@ enterStateFuncMap[state.PAUSING] = () => {
             }
         }
     });
-    event.trigger('GameState.enterPausing');
+    event.trigger(EventName['GAMESTATE.ENTER_PAUSING']);
 };
 exitStateFuncMap[state.PAUSING] = () => {
-    event.trigger('GameState.exitStart');
+    event.trigger(EventName['GAMESTATE.EXIT_PAUSING']);
 }
 
 enterStateFuncMap[state.END] = () => {

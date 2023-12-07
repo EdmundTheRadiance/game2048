@@ -1,8 +1,8 @@
-import { GENERATE_4_RATE } from "../config";
+import { COLUMN_NUM, GENERATE_4_RATE, ROW_NUM } from "../config";
 import Piece from "../models/Piece";
 
-const rows = 4;
-const cols = 4;
+const rows = ROW_NUM;
+const cols = COLUMN_NUM;
 const pieces: (Piece|null)[][] = Array.from({ length: rows }, () => Array(cols).fill(null));
 
 const deepCloneObject = function<T> (obj: T): T {
@@ -32,5 +32,13 @@ export default {
         const rand = ~~(Math.random() * emptyList.length);
         const position = emptyList[rand];
         pieces[position[0]][position[1]] = new Piece(Math.random() > GENERATE_4_RATE ? 2 : 4);
-    }
+    },
+    movePieceTo(fromPosition: [number, number], toPosition: [number, number]) {
+        pieces[toPosition[0]][toPosition[1]] = pieces[fromPosition[0]][fromPosition[1]];
+        pieces[fromPosition[0]][fromPosition[1]] = null;
+    },
+    mergePieces(fromPosition: [number, number], toPosition: [number, number]) {
+        pieces[toPosition[0]][toPosition[1]]?.addValue(pieces[fromPosition[0]][fromPosition[1]]?.getValue() || 0)
+        pieces[fromPosition[0]][fromPosition[1]] = null;
+    },
 }
