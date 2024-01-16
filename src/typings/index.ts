@@ -1,3 +1,5 @@
+import Piece from "../models/Piece";
+
 export enum EventName {
     'GAMESTATE.EXIT_START',
     'GAMESTATE.ENTER_PAUSING',
@@ -10,4 +12,16 @@ export enum Direction {
     DOWN,
     LEFT,
     RIGHT
+}
+
+export interface PieceMoveAnimationData {
+    from: [number, number],
+    to: [number, number],
+}
+
+export interface PieceMergeAnimationData {
+    from: [number, number],
+    to: [number, number],
+    sourcePiece: Piece,
+    targetPiece: Piece,
 }
