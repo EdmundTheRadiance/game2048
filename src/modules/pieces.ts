@@ -1,17 +1,14 @@
+import { deepCloneObject } from './utils';
 import { COLUMN_NUM, GENERATE_4_RATE, ROW_NUM } from "../config";
 import Piece from "../models/Piece";
 import PieceMoveDraw from "../models/PieceMoveDraw";
 import PieceMergeDraw from "../models/PieceMergeDraw";
+import event from "./event";
+import { EventName } from "../typings/index";
 
 const rows = ROW_NUM;
 const cols = COLUMN_NUM;
 const pieces: (Piece|null)[][] = Array.from({ length: rows }, () => Array(cols).fill(null));
-
-const deepCloneObject = function<T> (obj: T): T {
-    const descriptors = Object.getOwnPropertyDescriptors(obj);
-    const clone = Object.create(Object.getPrototypeOf(obj), descriptors) as T;
-    return clone;
-}
 
 export default {
     getPieces() {
@@ -59,5 +56,17 @@ export default {
             targetPiece: targetPieceCopy
         });
         pieces[fromPosition[0]][fromPosition[1]] = null;
+        event.trigger(EventName["PIECES.MERGE"], sourcePiece, targetPieceCopy);
     },
+    removeOnePiece(position: [number, number]) {
+        let positionNotEmpty = 0;
+        pieces.forEach((row) => {
+            row.forEach((piece) => {
+                if (piece) {
+                    positionNotEmpty++;
+                }
+            });
+        });
+        positionNotEmpty > 1 && (pieces[position[0]][position[1]] = null);
+    }
 }

@@ -36,4 +36,5 @@ export const pieceColors = {
     1024: '#edc53f',
     2048: '#edc22e',
 }; // 从浅到深的颜色;
-export const animateTime = 1000; // 棋子移动动画持续时间
+export const animateTime = 30; // 棋子移动动画持续时间
+export const swipeRange = 10; // 超过多少像素认为是滑动，否则是点击

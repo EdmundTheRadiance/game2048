@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/minigame-api-typings/index.d.ts" />
+import { swipeRange } from "../config";
 import { EventName, Direction } from "../typings/index";
 import event from "./event";
 
@@ -21,6 +22,12 @@ export default {
             // 计算坐标差值
             const deltaX = endX - startX;
             const deltaY = endY - startY;
+
+            // 滑动距离小于阈值认为是点击
+            if (Math.abs(deltaX) <= swipeRange && Math.abs(deltaY) <= swipeRange) {
+                event.trigger(EventName["INTERFACE.CLICK"], { x: startX, y: startY });
+                return;
+            }
 
             // 判断滑动方向
             if (Math.abs(deltaX) > Math.abs(deltaY)) {

@@ -4,7 +4,11 @@ export enum EventName {
     'GAMESTATE.EXIT_START',
     'GAMESTATE.ENTER_PAUSING',
     'GAMESTATE.EXIT_PAUSING',
-    'INTERFACE.SWIPE'
+    'INTERFACE.SWIPE',
+    'INTERFACE.CLICK',
+    'PIECES.MERGE',
+    'GAMEITEM.CLICK',
+    'PIECE.CLICK',
 }
 
 export enum Direction {

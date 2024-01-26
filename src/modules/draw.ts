@@ -7,8 +7,32 @@ import {
     emptyGridBackgroundColor
 } from "../config";
 import PieceDraw from "../models/PieceDraw";
+import score from "./score";
+import event from "./event";
+import { EventName } from "../typings/index";
+import gameItem from "./gameItem";
+
+const buttonWidth = 100;
+const buttonHeight = 100;
 
 export default {
+    init(ctx: CanvasRenderingContext2D) {
+        event.on(EventName["INTERFACE.CLICK"], ({ x, y }: { x: number, y: number }) => {
+            const items = gameItem.getItems();
+            const buttonX = (boardSize - buttonWidth * items.length) / 2;
+            const buttonY = ctx.canvas.height - buttonHeight - 40;
+            if (x > buttonX && x < buttonX + buttonWidth * items.length && y > buttonY && y < buttonY + buttonHeight) {
+                event.trigger(EventName["GAMEITEM.CLICK"], Math.floor((x - buttonX) / buttonWidth));
+            } else if (x > 0 && x < boardSize && y > 0 && y < boardSize) {
+                const pieces = piecesProxy.getPieces();
+                const gridSize = (boardSize - gap) / pieces.length - gap; // 格子大小
+                const position = [0, 0];
+                position[1] = pieces.findIndex((_piece, i) => x > (gridSize + gap) * i && x < (gridSize + gap) * (i + 1));
+                position[0] = pieces[0].findIndex((_piece, i) => y > (gridSize + gap) * i && y < (gridSize + gap) * (i + 1));
+                pieces[position[0]][position[1]] && event.trigger(EventName["PIECE.CLICK"], position);
+            }
+        });
+    },
     drawCheckerboard(ctx: CanvasRenderingContext2D) {
         const pieces = piecesProxy.getPieces();
         const gridSize = (boardSize - gap) / pieces.length - gap; // 格子大小
@@ -19,8 +43,8 @@ export default {
         // 绘制棋盘格子
         ctx.fillStyle = emptyGridBackgroundColor;
 
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 4; col++) {
+        for (let row = 0; row < pieces.length; row++) {
+            for (let col = 0; col < pieces[0].length; col++) {
                 const x = col * gridSize + (col + 1) * gap;
                 const y = row * gridSize + (row + 1) * gap;
                 ctx.beginPath();
@@ -52,4 +76,18 @@ export default {
             }
         }
     },
+    drawScore(ctx: CanvasRenderingContext2D) {
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText(`分数：${score.getScore()}`, boardSize / 2, boardSize + 20);
+    },
+    // 绘制道具
+    drawProps(ctx: CanvasRenderingContext2D) {
+        const items = gameItem.getItems();
+        const buttonX = (boardSize - buttonWidth * items.length) / 2;
+        const buttonY = ctx.canvas.height - buttonHeight - 40;
+        items.forEach(item => {
+            item.draw(buttonX, buttonY, buttonWidth, buttonHeight, ctx);
+        });
+    }
 }
